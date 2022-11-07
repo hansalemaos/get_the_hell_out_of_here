@@ -667,7 +667,7 @@ def remove_escaped_characters(variable):
         return remove_control_characters_from_string(variable)
     else:
         print("Variable will be converted to string")
-        return remove_control_characters_from_string(variable)
+        return remove_control_characters_from_string(repr(variable))
 
 
 def remove_control_characters_from_binary(variable):
