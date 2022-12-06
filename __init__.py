@@ -660,17 +660,19 @@ allcontrols2_sbd = (
 )
 
 
-def remove_escaped_characters(variable):
+def remove_escaped_characters(variable,replacement=''):
     if isinstance(variable, bytes):
-        return remove_control_characters_from_binary(variable)
+        if not isinstance(replacement,bytes):
+            replacement = replacement.encode()
+        return remove_control_characters_from_binary(variable,replacement)
     elif isinstance(variable, str):
-        return remove_control_characters_from_string(variable)
+        return remove_control_characters_from_string(variable,replacement)
     else:
         print("Variable will be converted to string")
-        return remove_control_characters_from_string(repr(variable))
+        return remove_control_characters_from_string(variable,replacement)
 
 
-def remove_control_characters_from_binary(variable):
+def remove_control_characters_from_binary(variable, replacement=b''):
     for a, b, c, d, e, f in zip(
         allcontrols_sb,
         allcontrolsb,
@@ -680,19 +682,19 @@ def remove_control_characters_from_binary(variable):
         allcontrols2_sbd,
     ):
         variable = (
-            variable.replace(a, b"")
-            .replace(b, b"")
-            .replace(c, b"")
-            .replace(d, b"")
-            .replace(e, b"")
-            .replace(f, b"")
+            variable.replace(a, replacement)
+            .replace(b, replacement)
+            .replace(c, replacement)
+            .replace(d, replacement)
+            .replace(e, replacement)
+            .replace(f, replacement)
         )
     return variable
 
 
-def remove_control_characters_from_string(variable):
+def remove_control_characters_from_string(variable, replacement=''):
     for a, b, c, d in zip(allcontrols_s, allcontrols, allcontrols2, allcontrols2_s):
-        variable = variable.replace(a, "").replace(b, "").replace(c, "").replace(d, "")
+        variable = variable.replace(a,replacement).replace(b, replacement).replace(c, replacement).replace(d, replacement)
     return variable
 
 
